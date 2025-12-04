@@ -1,0 +1,35 @@
+services:
+  db:
+    image: mariadb:10.6
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: user
+      MYSQL_PASSWORD: rootpassword
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./wp-migration/database.sql:/docker-entrypoint-initdb.d/init.sql
+    command:
+      - "--default-time-zone=Europe/Berlin"
+      - "--character-set-server=utf8mb4"
+      - "--collation-server=utf8mb4_unicode_520_ci"
+      - "--init-connect=SET NAMES utf8mb4 COLLATE utf8mb4_unicode_520_ci"
+
+#MYSQL_PWD=$MYSQL_ROOT_PASSWORD mariadb --protocol=socket -uroot -hlocalhost --init-command="SET NAMES utf8mb4 COLLATE utf8mb4_unicode_520_ci"  --database="$MYSQL_DATABASE" < init.sql
+
+
+  phpmyadmin:
+    image: phpmyadmin:5-apache
+    restart: always
+    depends_on:
+      - db
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+      PMA_USER: root
+      PMA_PASSWORD: rootpassword
+    ports:
+      - "8080:80"

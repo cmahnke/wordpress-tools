@@ -25,3 +25,21 @@ Only PHP needs to be installed, dependencies are provided as Git submodules, PHP
 ```bash
 ./unpack snapshot.wpress out_dir
 ```
+
+## `fixdump.py`
+
+This can clean up Database dumps from emoticons, this is nessecary since those can't be imported into a MAriaDB docker image using the nomal init mount. See [MariaDB/mariadb-docker#669](https://github.com/MariaDB/mariadb-docker/issues/669)
+
+```bash
+python fixdump.py wp-migration/database.sql | sponge wp-migration/database.sql
+```
+
+## `docker-compose.yaml`
+
+This can be used to query a extracted database dump.
+
+Make sure to run `unpack.php` first and `fixdump.py` if needed.
+
+```
+docker-compose up
+```
