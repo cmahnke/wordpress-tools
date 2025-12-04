@@ -1,0 +1,6 @@
+[submodule "all-in-one-wp-migration-unlimited"]
+	path = all-in-one-wp-migration-unlimited
+	url = https://github.com/dev071/all-in-one-wp-migration-unlimited.git
+[submodule "WordPress"]
+	path = WordPress
+	url = https://github.com/WordPress/WordPress.git
